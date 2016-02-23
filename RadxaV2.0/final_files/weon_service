@@ -1,0 +1,44 @@
+#!/bin/sh 
+### BEGIN INIT INFO
+# Provides: weon
+# Required-Start: mysql
+# Required-Stop:
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Start weON requirements at boot time
+# Description: Enable weON required services
+### END INIT INFO
+
+. /lib/lsb/init-functions
+
+
+
+
+do_start() {								# Call weon start script. 
+	log_begin_msg "Starting weon upstart services"
+	exec /etc/weon/weon-start.sh init-start
+	log_end_msg $?
+}
+
+do_stop() {								# Call weon stop script
+	log_begin_msg "Stopping weon services"
+	echo "[Stop]"
+	exec /etc/weon/weon-start.sh init-stop
+	log_end_msg $?
+}
+
+# Case dependant functions
+case "$1" in 
+	start)
+		do_start
+		;;
+	stop)
+		do_stop
+		;;
+	*)
+		echo "Usage: /etc/init.d/weon {start|stop}"
+		exit 1
+		;;
+esac
+
+exit 0
